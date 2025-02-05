@@ -2,13 +2,14 @@ import { GoogleMap,DrawingManager, useJsApiLoader } from "@react-google-maps/api
 import React, { useState } from "react";
 import {  Polygon } from "react-google-maps";
 
+const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const librarires = ['drawing'];
 
 const GoogleMapComponent = ({color='FF0000'}) =>{
     const [polygons, setPolygons] = useState([]);
     const {isLoaded} = useJsApiLoader({
-        googleMapsApiKey:'AIzaSyC-B8h1D1sW2hAtB3GjzwyuvoTnMBSs4us',
+        googleMapsApiKey:apiKey,
         libraries:librarires
     });
 
