@@ -1,6 +1,9 @@
+
+import GoogleMapComponent from "../GoogleMap/GoogleMap";
+
 const AdminDashboard = () =>{
     return (
-        "Hello Admin"
+       < GoogleMapComponent/>
     )
 }
 

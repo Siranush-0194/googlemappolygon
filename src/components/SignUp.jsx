@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { Button, Card, Form, Input, Select } from "antd";
 import {FaMapMarkerAlt} from "react-icons/fa"
 import './SignUp.scss';
+import { useNavigate } from "react-router-dom";
 
 const {Option} = Select;
 
@@ -13,6 +14,9 @@ const SignUp = () => {
     nickname:"",
     role:"editor"
    });
+  
+   const [form]= Form.useForm();
+    const navigate = useNavigate();
 
    const handleChange = (e) => {
     const {name,value} = e.target;
@@ -24,13 +28,20 @@ const SignUp = () => {
    const handleSubmit = () => {   
     sessionStorage.setItem("user",JSON.stringify(formData));
     alert("User registered successfully!");
+    setTimeout(()=>{
+        form.resetFields();
+    },0)
+
+    
    console.log("Stored User:", sessionStorage.getItem("user"));
 
    };
 
+  
+
 return (
     <Card title={<><FaMapMarkerAlt/>Sign Up </>} className="container">
-        <Form onFinish={handleSubmit} className="form">
+        <Form form={form} onFinish={handleSubmit} className="form">
         <Form.Item 
             name="name"
             rules={[{required:true,message:"Please input your name!"}]}
@@ -103,7 +114,13 @@ return (
             <Button type="primary" htmlType="submit" className="submit-button">
           Sign Up
         </Button>
+
         </div>
+        <>
+        <Button type="default" className="login-button" onClick={()=>navigate("/login")}>
+            Go to Login
+            </Button>
+        </>
         </Form>
 
     </Card>

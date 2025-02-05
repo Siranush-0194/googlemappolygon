@@ -11,45 +11,26 @@ const [email,setEmail] = useState("")
 const [password,setPassword] = useState("")
     const navigate=useNavigate()
 
-    const handleSubmit = (e) =>{
-        
+  
 
-        let userRole = "admin";
+    const handleSubmit=(e) =>{
+     
+        const storedUser = JSON.parse(sessionStorage.getItem("user"));
 
-        if(userRole === "admin"){
-            navigate("/admin-dashboard")
-        } else if( userRole==="editor"){
-            navigate("/editor-dashboard")
+        if(
+            storedUser &&
+            storedUser.email === email &&
+            storedUser.password === password
+        ) {
+            if(storedUser.role ==="admin") {
+                navigate("/admin-dashboard")
+            } else if( storedUser.role === "editor"){
+                navigate("/editor-dashboard");
+            }
+        } else {
+            alert ("Invalid login credentials!");
         }
     };
-    // const handleChange = (e) =>{
-    //     const {name,value} = e.target;
-    //     setloginData({...loginData,[name]:value})
-    // };
-
-      // const [loginData,setloginData] = useState({
-    //     email:"",
-    //     password:"",
-    // });
-
-    // const handleSubmit=(e) =>{
-    //     e.preventDefault();
-    //     const storedUser = JSON.parse(sessionStorage.getItem("user"));
-
-    //     if(
-    //         storedUser &&
-    //         storedUser.email === loginData.email &&
-    //         storedUser.password === loginData.password
-    //     ) {
-    //         if(storedUser.role ==="admin") {
-    //             history.pushState("/admin-dashboard")
-    //         } else if( storedUser.role === "editor"){
-    //             history.pushState("/editor-dashboard");
-    //         }
-    //     } else {
-    //         alert ("Invalid login credentials!")
-    //     }
-
         return (
             <Card title="Login" className="container">
                 <Form onFinish={handleSubmit} className="form">
@@ -89,6 +70,7 @@ const [password,setPassword] = useState("")
             </Card>
         )
     }
+
 
 
 
