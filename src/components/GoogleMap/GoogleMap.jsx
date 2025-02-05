@@ -1,12 +1,12 @@
 import { GoogleMap,DrawingManager, useJsApiLoader,Polygon ,Rectangle,Circle} from "@react-google-maps/api";
 import React, { useState,useEffect } from "react";
-import { isRouteErrorResponse } from "react-router-dom";
+import './Map.scss'
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const librarires = ['drawing','places'];
 
-const GoogleMapComponent = ({color='FF0000'}) =>{
+const GoogleMapComponent = () =>{
     const [polygons, setPolygons] = useState([]);
     const {isLoaded} = useJsApiLoader({
         googleMapsApiKey:apiKey,
@@ -116,11 +116,13 @@ const CircleComplete = async (circle) => {
         isLoaded ? (
             <>
             <GoogleMap
+            className="google-map-container"
                 mapContainerStyle={{ width: "100%", height: "500px" }}
                 center={{ lat: 40.0691, lng: 45.0382 }}
                 zoom={15}
             >
                 <DrawingManager
+                className="drawing-manager"
                     drawingControl={true}
                     drawingControlOptions={{
                         position: window.google.maps.ControlPosition.TOP_CENTER,
@@ -131,20 +133,20 @@ const CircleComplete = async (circle) => {
                         ]
                     }}
                     polygonOptions={{
-                        fillColor: color,
+                        fillColor: '#FFE047',
                         strokeWeight: 2,
                         fillOpacity: 0.5,
                         draggable: true,
                         editable: true
                     }}
                     rectangleOptions={{
-                        fillColor: "blue",
+                        fillColor: "#4A89F3",
                         strokeWeight: 2,
                         fillOpacity: 0.5,
                         editable: true
                     }}
                     circleOptions={{
-                        fillColor: "yellow",
+                        fillColor:  "#DD4B3E",
                         strokeWeight: 2,
                         fillOpacity: 0.5,
                         editable: true
@@ -159,10 +161,11 @@ const CircleComplete = async (circle) => {
                     if (shape.type === "Polygon") {
                         return (
                             <Polygon
+                            
                                 key={index}
                                 paths={shape.coordinates}
                                 options={{
-                                    fillColor: color,
+                                    fillColor: '#FFE047',
                                     strokeWeight: 2,
                                     fillOpacity: 0.5,
                                     draggable: true,
@@ -181,7 +184,7 @@ const CircleComplete = async (circle) => {
                                     west: shape.coordinates[1].lng
                                 }}
                                 options={{
-                                    fillColor: "blue",
+                                    fillColor: "#4A89F3",
                                     strokeWeight: 2,
                                     fillOpacity: 0.5,
                                     editable: true
@@ -195,7 +198,7 @@ const CircleComplete = async (circle) => {
                                 center={shape.center}
                                 radius={shape.radius}
                                 options={{
-                                    fillColor: "yellow",
+                                    fillColor: "#DD4B3E",
                                     strokeWeight: 2,
                                     fillOpacity: 0.5,
                                     editable: true
@@ -206,7 +209,7 @@ const CircleComplete = async (circle) => {
                     return null;
                 })}
             </GoogleMap>
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#fff", padding: "10px", borderRadius: "5px" }}>
+            <div className="shape-list" >
                 <h2>Created Shapes</h2>
                 {polygons.map((shape, index) => (
                     <div key={index} style={{ marginBottom: "10px" }}>

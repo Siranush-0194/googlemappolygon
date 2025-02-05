@@ -1,21 +1,82 @@
-.map-container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-  }
-  
-  .map-title {
+$primary-color: #afc3b0;
+$secondary-color: #badbf7;
+$accent-color: #f3dfc1;
+$background-color: #f4f4f9;
+$text-color: #333;
+$header-font-size: 20px;
+$map-height: 500px;
+
+.google-map-container {
+  position: relative;
+  width: 100%;
+  height: $map-height;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.drawing-manager {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.shape-list {
+  position: relative;
+  top: 20px;
+  left: 10px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  z-index: 10;
+  overflow-y: auto;
+
+  h2 {
+    font-size: $header-font-size;
+    color: $primary-color;
+    margin-bottom: 20px;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
   }
-  
-  .saved-shapes {
-    background: #f9f9f9;
+
+  div {
+    margin-bottom: 20px;
     padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
-    font-family: monospace;
+    border-bottom: 1px solid #eee;
+
+    strong {
+      color: $secondary-color;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    p {
+      color: $text-color;
+    }
   }
-  
+}
+
+h2 {
+  color: $primary-color;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: $accent-color;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($accent-color, 10%);
+  }
+}
