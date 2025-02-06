@@ -6,6 +6,8 @@ import { BrowserRouter as Router,Route, Routes, Navigate } from "react-router-do
 import Login from "./components/LogIn";
 import AdminDashboard from "./components/Dashboards/Admin";
 import EditorDashboard from "./components/Dashboards/Editor";
+import GoogleMapAdmin from "./components/Dashboards/Admin";
+import GoogleMapEditor from "./components/Dashboards/Editor";
 
 
 
@@ -18,8 +20,8 @@ const App = () => {
     <Route  path="/" element={<Navigate to="/login"/>}/>
       <Route  path="/login" element={<Login/>}/>
       <Route path="/signup" element={<SignUp/>}/>
-      <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
-      <Route path="/editor-dashboard" element={<EditorDashboard/>}/>
+      <Route path="/admin-dashboard" element={<GoogleMapAdmin/>}/>
+      <Route path="/editor-dashboard" element={<GoogleMapEditor/>}/>
     </Routes>
   </Router>
   );
