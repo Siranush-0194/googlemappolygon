@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { Button, Card, Form, Input, Select } from "antd";
 import {FaMapMarkerAlt} from "react-icons/fa"
 import './SignUp.scss';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const {Option} = Select;
 
@@ -11,7 +11,6 @@ const SignUp = () => {
     name:"",
     email:"",
     password:"",
-    nickname:"",
     role:"editor"
    });
   
@@ -40,8 +39,13 @@ const SignUp = () => {
   
 
 return (
-    <Card title={<><FaMapMarkerAlt/>Sign Up </>} className="container">
-        <Form form={form} onFinish={handleSubmit} className="form">
+    <div className="auth-container">    
+    <Card  className="auth-card">
+    <div className="auth-header">
+        <FaMapMarkerAlt className="map-icon"/>
+        <h2>Google Maps</h2>
+    </div>
+        <Form form={form} onFinish={handleSubmit} className="auth-form">
         <Form.Item 
             name="name"
             rules={[{required:true,message:"Please input your name!"}]}
@@ -83,26 +87,14 @@ return (
                 required
                 />
             </Form.Item>
-            <Form.Item 
-                name="nickname"
-                rules={[{required:true,message:"Please input your nickname!"}]}
-                >
-            <Input
-                className="input-field"
-                text="text"
-                name="nickname"
-                placeholder="Nickname"
-                value={formData.nickname}
-                onChange={handleChange}
-                required
-                />
-            </Form.Item>
+          
 
             <Form.Item name="role">
                 <Select 
                     name="role"
                     value={formData.role}
                     onChange={handleRoleChange}
+                    placeholder="Choose your role"
                     className="input-field"
                     >
                         <Option value="admin">Admin</Option>
@@ -117,13 +109,16 @@ return (
 
         </div>
         <>
-        <Button type="default" className="login-button" onClick={()=>navigate("/login")}>
-            Go to Login
+        <Button type="default" className="auth-footer" onClick={()=>navigate("/login")}>
+            <p> Already have an account? 
+                <Link to='/login'>Login</Link>
+                </p>
             </Button>
         </>
         </Form>
 
     </Card>
+    </div>
 )
 }
 

@@ -1,13 +1,15 @@
 import { GoogleMap, DrawingManager, useJsApiLoader, Polygon } from "@react-google-maps/api";
 import React, { useState, useEffect } from "react";
-// import './Map.scss';
+import './Dashboard.scss';
 import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const libraries = ['drawing', 'places'];
 
 const GoogleMapEditor = () => {
     const [polygons, setPolygons] = useState([]);
+    const [selectedPolygon, setSelectedPolygon] = useState(null);
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: apiKey,
         libraries: libraries
@@ -25,6 +27,11 @@ const GoogleMapEditor = () => {
         if (storedShapes) {
             setPolygons(JSON.parse(storedShapes));
         }
+
+        notification.info({
+            message: 'Dear editor',
+            description: 'You can use only Polygon shape',
+          });
     }, []);
 
     const saveShapesToStorage = (shapes) => {
@@ -79,14 +86,22 @@ const GoogleMapEditor = () => {
 
     const logout = () => {
         sessionStorage.removeItem("user");
+        localStorage.removeItem('shapes')
         navigate("/login");
     };
+const handlePolygonClick = (polygonData) =>{
+    setSelectedPolygon(polygonData)
+}
 
-    const isEditor = user?.role === 'editor';
+const handlePolygonClickSideBar = (polygonData) => {
+    setSelectedPolygon(polygonData)
+}
+
 
     if (!isLoaded) {
         return <div>Loading...</div>;
     }
+ 
 
     return (
         <div className="app-container">
@@ -136,6 +151,7 @@ const GoogleMapEditor = () => {
                                         draggable: true,
                                         editable: true
                                     }}
+                                    onClick={() => handlePolygonClick(shape)}
                                 />
                             );
                         }
@@ -149,11 +165,15 @@ const GoogleMapEditor = () => {
                     <h2> Created Shapes</h2>
                     <button onClick={clearShapes}>Clear All Shapes</button>
                     {polygons.map((shape, index) => (
-                        <div key={index} className="shape-item">
+                        <div 
+                        key={index} 
+                        className={`shape-item ${selectedPolygon === shape ? 'selected' : ''}`} 
+                                onClick={() => handlePolygonClickSideBar(shape)} 
+                            >
                             <strong>Type:</strong> {shape.type} <br />
                             <strong>Creator:</strong> {shape.creator} <br />
                             <strong>Place:</strong> {shape.place} <br />
-                            <strong>Coordinates:</strong>
+                            <strong>Coordinates:</strong><br/>
                             {shape.type === 'Polygon' && shape.coordinates.map((coord,index) => (
                                 <span key={index}>({coord.lat.toFixed(4)}, {coord.lng.toFixed(4)})</span>
                             ))}
@@ -164,7 +184,7 @@ const GoogleMapEditor = () => {
                 </>
             )}
             {shape.type === "Circle" && (
-                <span>Center: ({shape.center.lat.toFixed(4)}, {shape.center.lng.toFixed(4)}), Radius: {shape.radius} meters</span>
+                <span>Center: ({shape.center.lat.toFixed(4)},{shape.center.lng.toFixed(4)}),Radius: {shape.radius} meters</span>
             )}<br/>
                             <strong>Created At:</strong> {shape.createdAt} <br />
                         </div>

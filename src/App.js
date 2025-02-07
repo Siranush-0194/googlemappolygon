@@ -1,11 +1,8 @@
 import React from "react";
-
-import "antd/dist/reset.css"; // Import Ant Design styles
+import "antd/dist/reset.css";
 import SignUp from "./components/SignUp";
 import { BrowserRouter as Router,Route, Routes, Navigate } from "react-router-dom";
 import Login from "./components/LogIn";
-import AdminDashboard from "./components/Dashboards/Admin";
-import EditorDashboard from "./components/Dashboards/Editor";
 import GoogleMapAdmin from "./components/Dashboards/Admin";
 import GoogleMapEditor from "./components/Dashboards/Editor";
 

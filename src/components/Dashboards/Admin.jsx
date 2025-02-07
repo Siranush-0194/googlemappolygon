@@ -1,7 +1,9 @@
 import { GoogleMap, DrawingManager, useJsApiLoader, Polygon, Rectangle, Circle } from "@react-google-maps/api";
 import React, { useState, useEffect } from "react";
-import './Admin.scss';  
+import './Dashboard.scss'; 
 import { useNavigate } from "react-router-dom";
+
+
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const libraries = ['drawing', 'places'];
@@ -14,6 +16,8 @@ const GoogleMapAdmin = () => {
     });
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
+
+
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem("user");
@@ -162,6 +166,7 @@ const GoogleMapAdmin = () => {
 
     const logout = () => {
         sessionStorage.removeItem("user");
+        localStorage.removeItem('shapes')
         navigate("/login");
     };
 
@@ -178,7 +183,8 @@ const GoogleMapAdmin = () => {
                 <h1> Google Map Drawing App</h1>
                 {user && (
                     <div className="user-info">
-                        <span>{user.name} {user.role}</span>
+                      
+                        <span>{user.name} ({user.role})</span>
                         <button onClick={logout}>Log Out</button>
                     </div>
                 )}

@@ -1,9 +1,10 @@
-import React,{useState,useHistory}  from "react";
-import { Button, Card, Form, Input, Typography } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import React,{useState}  from "react";
+import { Button, Card, Form, Input} from "antd";
+import { Link,  useNavigate } from "react-router-dom";
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 
-const {Title} = Typography
+
 
 const Login = () => {
   
@@ -32,8 +33,13 @@ const [password,setPassword] = useState("")
         }
     };
         return (
-            <Card title="Login" className="container">
-                <Form onFinish={handleSubmit} className="form">
+            <div className="auth-container">
+            <Card title="Login" className="auth-card">
+                <div className="map-icon">
+                    <FaMapMarkedAlt className="map-icon"/>
+                    <h2>Google Map</h2>
+                </div>
+                <Form onFinish={handleSubmit} className="auth-form">
                     <Form.Item name="email">
                         <Input
                             className="input-field"
@@ -61,13 +67,15 @@ const [password,setPassword] = useState("")
                         <Button type="primary" htmlType="submit" className="submit-button">Login</Button>
                     </div>
 
-                    <div className="signup-prompt">
-                        <Title level={5}>Don't have an account?</Title>
+                    <div className="auth-footer">
+                        <p> Don't have an account? <Link to ="/signup">Register </Link> </p>
+                        
                         <Link to="/signup"> Sign Up</Link>
                     </div>
                 </Form>
 
             </Card>
+            </div>
         )
     }
 
