@@ -2,6 +2,8 @@ import { GoogleMap, DrawingManager, useJsApiLoader, Polygon, Rectangle, Circle }
 import React, { useState, useEffect } from "react";
 import './Dashboard.scss'; 
 import { useNavigate } from "react-router-dom";
+import Search from "../Search/Search";
+import ShapeDetails from "../ShapeDetails/ShapeInfo";
 
 
 
@@ -15,6 +17,8 @@ const GoogleMapAdmin = () => {
         libraries: libraries
     });
     const [user, setUser] = useState(null);
+    const [searchTerm,setSearchTerm] = useState('');
+    const [selectedShape, setSelectedShape] = useState(null)
     const navigate = useNavigate();
 
 
@@ -86,6 +90,8 @@ const GoogleMapAdmin = () => {
         } catch (error) {
             console.error("Error fetching place name:", error);
         }
+
+   
     };
 
     const RectangleComplete = async (rectangle) => {
@@ -171,7 +177,19 @@ const GoogleMapAdmin = () => {
     };
 
 
-    const filteredPolygons = polygons.filter(shape => shape.creator === user?.name);
+    const filteredPolygons = polygons.filter((shape) => {
+        const matchesCreator = shape.creator === user?.name;
+        const matchesSearch =
+            searchTerm === "" ||
+            shape.place?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (shape.type && shape.type.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+        return matchesCreator && matchesSearch})
+
+
+        const handleShapeClick = (shape) =>{
+            setSelectedShape(shape)
+        }
 
     if (!isLoaded) {
         return <div>Loading...</div>;
@@ -189,7 +207,7 @@ const GoogleMapAdmin = () => {
                     </div>
                 )}
             </header>
-
+<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
         
 
             <div className="map-container">
@@ -242,6 +260,7 @@ const GoogleMapAdmin = () => {
                                         draggable: true,
                                         editable: true
                                     }}
+                                    onClick={()=> handleShapeClick(shape)}
                                 />
                             );
                         } else if (shape.type === "Rectangle") {
@@ -260,6 +279,7 @@ const GoogleMapAdmin = () => {
                                         fillOpacity: 0.5,
                                         editable: true
                                     }}
+                                    onClick={()=> handleShapeClick(shape)}
                                 />
                             );
                         } else if (shape.type === "Circle") {
@@ -274,12 +294,17 @@ const GoogleMapAdmin = () => {
                                         fillOpacity: 0.5,
                                         editable: true
                                     }}
+                                    onClick={()=> handleShapeClick(shape)}
                                 />
                             );
                         }
                         return null;
                     })}
                 </GoogleMap>
+
+                {selectedShape && (
+                        <ShapeDetails shape={selectedShape} closeModal={() => setSelectedShape(null)}/>
+                    )}
                 <div className="main-container">
                 <aside className="sidebar">
                     <h2> Created Shapes</h2>

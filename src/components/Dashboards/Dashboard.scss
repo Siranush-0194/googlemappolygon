@@ -29,7 +29,8 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-bottom: 3px solid #3a78d1;
+    border-bottom:  10px solid;
+  
 
     h1 {
         font-size: 26px;
@@ -149,6 +150,51 @@ body {
         height: 500px;
     }
 }
+
+
+
+
+.shape-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+
+    strong {
+        color: #333;
+    }
+}
+
+.shape-details-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background-color: white;
+    border-left: 2px solid #ccc;
+    padding: 20px;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content {
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+
 
 
 @media (max-width: 768px) {

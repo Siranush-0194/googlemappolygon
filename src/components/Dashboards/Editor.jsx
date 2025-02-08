@@ -3,18 +3,22 @@ import React, { useState, useEffect } from "react";
 import './Dashboard.scss';
 import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
+import Search from "../Search/Search";
+import ShapeDetails from "../ShapeDetails/ShapeInfo";
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const libraries = ['drawing', 'places'];
 
 const GoogleMapEditor = () => {
     const [polygons, setPolygons] = useState([]);
+    const [selectedShape, setSelectedShape] = useState(null)
     const [selectedPolygon, setSelectedPolygon] = useState(null);
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: apiKey,
         libraries: libraries
     });
     const [user, setUser] = useState(null);
+    const [searchTerm,setSearchTerm] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -89,12 +93,14 @@ const GoogleMapEditor = () => {
         localStorage.removeItem('shapes')
         navigate("/login");
     };
+
 const handlePolygonClick = (polygonData) =>{
     setSelectedPolygon(polygonData)
 }
 
-const handlePolygonClickSideBar = (polygonData) => {
-    setSelectedPolygon(polygonData)
+
+const handleShapeClick = (shape) =>{
+    setSelectedShape(shape)
 }
 
 
@@ -102,6 +108,14 @@ const handlePolygonClickSideBar = (polygonData) => {
         return <div>Loading...</div>;
     }
  
+    const filteredPolygons = polygons.filter((shape) => {
+        const matchesCreator = shape.creator === user?.name;
+        const matchesSearch =
+            searchTerm === "" ||
+            shape.place?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (shape.type && shape.type.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+        return matchesCreator && matchesSearch})
 
     return (
         <div className="app-container">
@@ -115,8 +129,10 @@ const handlePolygonClickSideBar = (polygonData) => {
                 )}
             </header>
 
+            <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
 
             <div className="map-container">
+
                 <GoogleMap
                     className="google-map-container"
                     mapContainerStyle={{ width: "100%", height: "500px" }}
@@ -151,24 +167,27 @@ const handlePolygonClickSideBar = (polygonData) => {
                                         draggable: true,
                                         editable: true
                                     }}
-                                    onClick={() => handlePolygonClick(shape)}
+                                    onClick={() => handleShapeClick(shape)}
                                 />
                             );
                         }
                         return null;
                     })}
                 </GoogleMap>
-
+                    {selectedShape && (
+                        <ShapeDetails shape={selectedShape} closeModal={() => setSelectedShape(null)}/>
+                    )}
 
             <div className="main-container">
                 <aside className="sidebar">
                     <h2> Created Shapes</h2>
-                    <button onClick={clearShapes}>Clear All Shapes</button>
-                    {polygons.map((shape, index) => (
+                   
+                    <button onClick={() => {clearShapes()}}>Clear All Shapes</button>
+                    {filteredPolygons.map((shape, index) => (
                         <div 
                         key={index} 
-                        className={`shape-item ${selectedPolygon === shape ? 'selected' : ''}`} 
-                                onClick={() => handlePolygonClickSideBar(shape)} 
+                        className='shape-item' 
+
                             >
                             <strong>Type:</strong> {shape.type} <br />
                             <strong>Creator:</strong> {shape.creator} <br />
@@ -176,16 +195,9 @@ const handlePolygonClickSideBar = (polygonData) => {
                             <strong>Coordinates:</strong><br/>
                             {shape.type === 'Polygon' && shape.coordinates.map((coord,index) => (
                                 <span key={index}>({coord.lat.toFixed(4)}, {coord.lng.toFixed(4)})</span>
-                            ))}
-                            {shape.type === "Rectangle" && (
-                <>
-                    <span>({shape.coordinates[0].lat.toFixed(4)}, {shape.coordinates[0].lng.toFixed(4)})</span> &mdash; 
-                    <span>({shape.coordinates[1].lat.toFixed(4)}, {shape.coordinates[1].lng.toFixed(4)})</span>
-                </>
-            )}
-            {shape.type === "Circle" && (
-                <span>Center: ({shape.center.lat.toFixed(4)},{shape.center.lng.toFixed(4)}),Radius: {shape.radius} meters</span>
-            )}<br/>
+                            ))}<br/>
+                           
+           
                             <strong>Created At:</strong> {shape.createdAt} <br />
                         </div>
                     ))}

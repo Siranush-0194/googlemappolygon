@@ -1,0 +1,113 @@
+.shape-details-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 450px;
+    height: 100%;
+    background: linear-gradient(135deg, #0093ff, #e3f2fd); 
+    border-left: 2px solid #d1d8e0;
+    padding: 30px;
+    overflow-y: auto;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px 0 0 8px;
+    z-index: 1050;
+    transition: transform 0.3s ease-out;
+
+    &.active {
+        transform: translateX(0);
+    }
+
+    &.inactive {
+        transform: translateX(100%);
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #d1d8e0;
+        padding-bottom: 10px;
+    }
+
+    .modal-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2980b9; 
+    }
+
+    .close-button {
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: #e74c3c; 
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: #c0392b;
+        }
+    }
+
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        .modal-item {
+            display: flex;
+            flex-direction: column;
+
+            strong {
+                font-weight: 500;
+                color: #7f8c8d;
+            }
+
+            .value {
+                font-size: 16px;
+                color: #34495e; 
+                margin-top: 5px;
+            }
+
+            &.area,
+            &.perimeter {
+                color: #ff6f61; 
+            }
+
+            &.creator,
+            &.place,
+            &.createdAt {
+                color: #95a5a6;
+            }
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+
+            .modal-button {
+                background-color: #3498db; 
+                color: #fff;
+                padding: 12px 18px;
+                border-radius: 30px;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 500;
+                text-transform: uppercase;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+
+                &:hover {
+                    background-color: #2980b9; 
+                    transform: scale(1.05); 
+                }
+
+                &:active {
+                    background-color: #1abc9c;
+                }
+            }
+        }
+    }
+}
