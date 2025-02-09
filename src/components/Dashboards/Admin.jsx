@@ -4,6 +4,8 @@ import './Dashboard.scss';
 import { useNavigate } from "react-router-dom";
 import Search from "../Search/Search";
 import ShapeDetails from "../ShapeDetails/ShapeInfo";
+import Header from "../Header/Header";
+
 
 
 
@@ -175,6 +177,7 @@ const GoogleMapAdmin = () => {
         sessionStorage.removeItem("user");
         localStorage.removeItem('shapes')
         navigate("/login");
+        
     };
 
 
@@ -215,16 +218,8 @@ const GoogleMapAdmin = () => {
 
     return (
         <div className="app-container">
-            <header className="app-header">
-                <h1> Google Map Drawing App</h1>
-                {user && (
-                    <div className="user-info">
-                      
-                        <span>{user.name} ({user.role})</span>
-                        <button onClick={logout}>Log Out</button>
-                    </div>
-                )}
-            </header>
+            
+            <Header user={user} logout={logout}/>
 <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
         
 

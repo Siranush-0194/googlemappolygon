@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { notification } from "antd";
 import Search from "../Search/Search";
 import ShapeDetails from "../ShapeDetails/ShapeInfo";
+import Header from "../Header/Header";
 
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const libraries = ['drawing', 'places'];
@@ -132,15 +133,7 @@ const handleShapeClick = (shape) =>{
 
     return (
         <div className="app-container">
-            <header className="app-header">
-                <h1> Google Map Drawing App (Editor)</h1>
-                {user && (
-                    <div className="user-info">
-                        <span>{user.name} {user.role}</span>
-                        <button onClick={logout}>Log Out</button>
-                    </div>
-                )}
-            </header>
+           <Header user={user} logout={logout}/>
 
             <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
 
