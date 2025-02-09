@@ -7,6 +7,7 @@ import ShapeDetails from "../ShapeDetails/ShapeInfo";
 
 
 
+
 const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 const libraries = ['drawing', 'places'];
 
@@ -195,6 +196,23 @@ const GoogleMapAdmin = () => {
         return <div>Loading...</div>;
     }
 
+
+  
+    const deleteShape = (shapeIndex) =>{
+        setPolygons((prevPolygons) => {
+            const shapeDeleted = prevPolygons[shapeIndex];
+            if(shapeDeleted?.mapObject) {
+                shapeDeleted?.mapObject.setMap(null);
+            }
+            const updatedShapes = prevPolygons.filter((_,index) => index !== shapeIndex)
+            // setPolygons(updatedShapes);
+            localStorage.setItem("shapes", JSON.stringify(updatedShapes)) ;
+            return updatedShapes;
+        })
+   
+    };
+
+
     return (
         <div className="app-container">
             <header className="app-header">
@@ -312,7 +330,8 @@ const GoogleMapAdmin = () => {
                         Clear All Shapes
                     </button>
                     {filteredPolygons.map((shape, index) => (
-                        <div key={index} className="shape-item">
+                        <div key={index} className="shape-item" >
+                            <button style={{color:"white",background:"red"}}onClick={()=>{deleteShape(index) }}>Delete</button>
                             <strong>Type:</strong> {shape.type} <br />
                             <strong>Creator:</strong> {shape.creator} <br />
                             <strong>Place:</strong> {shape.place} <br />

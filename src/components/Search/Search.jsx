@@ -1,4 +1,3 @@
-import { Input } from "antd";
 import React from "react";
 import './Search.scss'
 import { FaMapMarkerAlt } from "react-icons/fa";

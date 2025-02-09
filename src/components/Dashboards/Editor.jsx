@@ -12,7 +12,6 @@ const libraries = ['drawing', 'places'];
 const GoogleMapEditor = () => {
     const [polygons, setPolygons] = useState([]);
     const [selectedShape, setSelectedShape] = useState(null)
-    const [selectedPolygon, setSelectedPolygon] = useState(null);
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: apiKey,
         libraries: libraries
@@ -94,9 +93,7 @@ const GoogleMapEditor = () => {
         navigate("/login");
     };
 
-const handlePolygonClick = (polygonData) =>{
-    setSelectedPolygon(polygonData)
-}
+
 
 
 const handleShapeClick = (shape) =>{
@@ -116,6 +113,22 @@ const handleShapeClick = (shape) =>{
             (shape.type && shape.type.toLowerCase().includes(searchTerm.toLowerCase()));
     
         return matchesCreator && matchesSearch})
+
+
+
+    const deleteShape = (shapeIndex) =>{
+        setPolygons((prevPolygons) => {
+            const shapeDeleted = prevPolygons[shapeIndex];
+            if(shapeDeleted?.mapObject) {
+                shapeDeleted?.mapObject.setMap(null);
+            }
+            const updatedShapes = prevPolygons.filter((_,index) => index !== shapeIndex)
+            // setPolygons(updatedShapes);
+            localStorage.setItem("shapes", JSON.stringify(updatedShapes)) ;
+            return updatedShapes;
+        })
+   
+    };
 
     return (
         <div className="app-container">
@@ -189,6 +202,7 @@ const handleShapeClick = (shape) =>{
                         className='shape-item' 
 
                             >
+                                 <button style={{color:"white",background:"red"}}onClick={()=>{deleteShape(index) }}>Delete</button>
                             <strong>Type:</strong> {shape.type} <br />
                             <strong>Creator:</strong> {shape.creator} <br />
                             <strong>Place:</strong> {shape.place} <br />
