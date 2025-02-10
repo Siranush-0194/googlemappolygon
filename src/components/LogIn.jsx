@@ -1,7 +1,7 @@
 import React,{useState}  from "react";
 import { Button, Card, Form, Input} from "antd";
 import { Link,  useNavigate } from "react-router-dom";
-import { FaMapMarkedAlt } from "react-icons/fa";
+import {  FaMapMarkerAlt } from "react-icons/fa";
 
 
 
@@ -35,10 +35,11 @@ const [password,setPassword] = useState("")
         return (
             <div className="auth-container">
             <Card title="Login" className="auth-card">
-                <div className="map-icon">
-                    <FaMapMarkedAlt className="map-icon"/>
-                    <h2>Google Map</h2>
-                </div>
+            <div className="auth-header">
+        <FaMapMarkerAlt className="map-icon"/>
+        <h2>Google Maps</h2>
+    </div>
+                
                 <Form onFinish={handleSubmit} className="auth-form">
                     <Form.Item name="email">
                         <Input

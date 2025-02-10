@@ -62,7 +62,10 @@ return (
             </Form.Item>
             <Form.Item 
                 name="email"
-                rules={[{required:true,message:"Please input your email!"}]}
+                rules={[
+                    {required:true,message:"Please input your email!"},
+                    {type:'email', message:"Please enter valid email address"}
+                ]}
                 >
             <Input 
             className="input-field"
