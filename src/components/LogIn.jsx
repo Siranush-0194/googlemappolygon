@@ -41,7 +41,11 @@ const [password,setPassword] = useState("")
     </div>
                 
                 <Form onFinish={handleSubmit} className="auth-form">
-                    <Form.Item name="email">
+                    <Form.Item 
+                    name="email"   
+                    rules={[
+                    {required:true,message:"Please input your email!"},
+                    {type:'email', message:"Please enter valid email address"}]}>
                         <Input
                             className="input-field"
                             type="text"
@@ -71,7 +75,6 @@ const [password,setPassword] = useState("")
                     <div className="auth-footer">
                         <p> Don't have an account? <Link to ="/signup">Register </Link> </p>
                         
-                        <Link to="/signup"> Sign Up</Link>
                     </div>
                 </Form>
 
